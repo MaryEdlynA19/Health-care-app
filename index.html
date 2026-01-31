@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Healthcare - Appointment System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">🏥 Smart Healthcare</h1>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#check-symptoms" class="nav-link">Check Symptoms</a></li>
+                <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="container">
+            <div class="hero">
+                <h2>Welcome to Smart Healthcare</h2>
+                <p class="subtitle">Identify your symptoms, find the right doctor, and book an appointment - all in one place</p>
+                <button class="btn-primary" onclick="showSection('check-symptoms')">Start Symptom Check</button>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Symptom Checker</h3>
+                    <p>Describe your symptoms and get intelligent condition suggestions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍⚕️</div>
+                    <h3>Doctor Matching</h3>
+                    <p>Find the right specialist based on your condition</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Easy Booking</h3>
+                    <p>Book appointments with real-time availability</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Symptom Checker Section -->
+    <section id="check-symptoms" class="section">
+        <div class="container">
+            <h2>Check Your Symptoms</h2>
+            <p class="section-description">Select your symptoms and indicate their severity to get condition recommendations</p>
+            
+            <div class="symptom-checker">
+                <!-- Step 1: Symptom Selection -->
+                <div class="step" id="step1">
+                    <h3>Step 1: Select Symptoms</h3>
+                    <div class="symptom-categories">
+                        <button class="category-btn active" data-category="all">All</button>
+                        <button class="category-btn" data-category="respiratory">Respiratory</button>
+                        <button class="category-btn" data-category="general">General</button>
+                        <button class="category-btn" data-category="neurological">Neurological</button>
+                        <button class="category-btn" data-category="cardiovascular">Cardiovascular</button>
+                    </div>
+                    
+                    <div class="symptom-list" id="symptom-list">
+                        <!-- Symptoms will be loaded here -->
+                    </div>
+                    <div class="step-actions" style="margin-top: 2rem; text-align: center;">
+                        <button class="btn-primary" id="next-btn" onclick="goToStep(2)" style="display: none;">
+                            Next →
+                        </button>
+                        <p id="select-symptom-hint" style="color: var(--text-secondary); margin-top: 1rem;">
+                            Please select at least one symptom to continue
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2: Symptom Details -->
+                <div class="step hidden" id="step2">
+                    <h3>Step 2: Symptom Details</h3>
+                    <div class="selected-symptoms" id="selected-symptoms">
+                        <!-- Selected symptoms with severity inputs -->
+                    </div>
+                    <button class="btn-secondary" onclick="goToStep(1)">Back</button>
+                    <button class="btn-primary" onclick="analyzeSymptoms()">Analyze Symptoms</button>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading hidden" id="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing your symptoms...</p>
+                </div>
+
+                <!-- Results -->
+                <div class="results hidden" id="results">
+                    <h3>Possible Conditions</h3>
+                    <div class="conditions-list" id="conditions-list">
+                        <!-- Condition results will appear here -->
+                    </div>
+                    <button class="btn-secondary" onclick="resetChecker()">Check Again</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctor Selection Section -->
+    <section id="doctor-selection" class="section hidden">
+        <div class="container">
+            <h2>Recommended Doctors</h2>
+            <p class="section-description">Based on your condition: <span id="selected-condition-name"></span></p>
+            
+            <div class="doctor-filters">
+                <input type="text" id="city-filter" placeholder="Filter by city (optional)">
+                <button class="btn-secondary" onclick="filterDoctors()">Filter</button>
+            </div>
+
+            <div class="doctors-list" id="doctors-list">
+                <!-- Doctors will be loaded here -->
+            </div>
+
+            <button class="btn-secondary" onclick="showSection('check-symptoms')">Back to Symptoms</button>
+        </div>
+    </section>
+
+    <!-- Appointment Booking Section -->
+    <section id="booking" class="section hidden">
+        <div class="container">
+            <h2>Book Appointment</h2>
+            <div class="booking-info">
+                <div class="info-card">
+                    <h3 id="booking-doctor-name"></h3>
+                    <p id="booking-doctor-specialization"></p>
+                    <p id="booking-doctor-location"></p>
+                </div>
+            </div>
+
+            <div class="booking-form">
+                <div class="form-group">
+                    <label>Select Date</label>
+                    <input type="date" id="appointment-date" min="" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Available Time Slots</label>
+                    <div class="time-slots" id="time-slots">
+                        <!-- Time slots will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="patient-name" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="patient-email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="patient-phone" placeholder="Enter your phone number" required>
+                </div>
+
+                <button class="btn-primary" onclick="bookAppointment()">Confirm Booking</button>
+                <button class="btn-secondary" onclick="showSection('doctor-selection')">Back</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confirmation Section -->
+    <section id="confirmation" class="section hidden">
+        <div class="container">
+            <div class="confirmation-card">
+                <div class="success-icon">✅</div>
+                <h2>Appointment Confirmed!</h2>
+                <div class="confirmation-details" id="confirmation-details">
+                    <!-- Confirmation details -->
+                </div>
+                <button class="btn-primary" onclick="showSection('dashboard')">View Dashboard</button>
+                <button class="btn-secondary" onclick="resetApp()">Book Another</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section hidden">
+        <div class="container">
+            <h2>Your Dashboard</h2>
+            <div class="dashboard-content">
+                <div class="dashboard-card">
+                    <h3>Upcoming Appointments</h3>
+                    <div id="upcoming-appointments">
+                        <p class="empty-state">No upcoming appointments</p>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Appointment History</h3>
+                    <div id="appointment-history">
+                        <p class="empty-state">No appointment history</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
