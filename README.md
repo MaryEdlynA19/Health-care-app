@@ -192,7 +192,3 @@ For production, consider:
 ## License
 
 MIT
-
-## Support
-
-For issues or questions, please refer to the architecture documentation files in the parent directory.
