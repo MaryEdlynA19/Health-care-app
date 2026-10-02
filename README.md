@@ -4,9 +4,9 @@ A complete web-based healthcare appointment system with symptom checker, rule-ba
 
 ## Features
 
-- 🔍 **Symptom Checker**: Interactive symptom selection with severity levels
+- 🔍 **Symptom Checker**: Interactive symptom selection with severity levels 
 - 🤖 **Rule-Based AI**: Intelligent condition matching based on symptoms
-- 👨‍⚕️ **Doctor Matching**: Find the right specialist for your condition
+- 👨‍⚕️ **Doctor Matching**: One can find the right specialist for your condition
 - 📅 **Appointment Booking**: Real-time availability and booking system
 - 📊 **Dashboard**: View your appointments and history
 
@@ -192,7 +192,3 @@ For production, consider:
 ## License
 
 MIT
-
-## Support
-
-For issues or questions, please refer to the architecture documentation files in the parent directory.
